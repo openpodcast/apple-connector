@@ -149,3 +149,22 @@ class AppleConnector:
             'mode': 'ALL_TIME',
         }
         return self._request("episodes", params=params)
+
+    def episode(self, episode_id: str) -> dict:
+        """Episode details endpoint
+
+        Args:
+            episode_id (str): Apple Podcast Episode ID.
+
+        Returns:
+            dict: Response data from API.
+        """
+
+        params = {
+            # Yet another way to specify the date range. o_O
+            'startDate': '2017-09-19',
+            'endDate': dt.datetime.now().strftime("%Y-%m-%d"),
+            'mode': 'ALL_TIME',
+            'episodeId': episode_id,
+        }
+        return self._request("episodeDetails", params=params)
