@@ -7,7 +7,9 @@ https://podcastsconnect.apple.com.
 ## Supported Data
 
 - Podcast Overview
+- Trends
 - Episodes Overview
+- Episode Details
 
 ## Credentials
 
