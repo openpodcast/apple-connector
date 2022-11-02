@@ -16,14 +16,14 @@ def main():
     )
 
     # Fetch metadata for podcast
-    # meta = connector.overview()
-    # logger.info("Podcast Overview= {}", json.dumps(meta, indent=4))
+    # overview  = connector.overview()
+    # logger.info("Podcast Overview= {}", json.dumps(overview, indent=4))
 
     # Fetch trends for all episodes
-    end = dt.datetime.now()
-    start = dt.datetime.now() - dt.timedelta(days=7)
-    trends = connector.trends(start, end)
-    logger.info("Trends= {}", json.dumps(trends, indent=4))
+    # end = dt.datetime.now()
+    # start = dt.datetime.now() - dt.timedelta(days=7)
+    # trends = connector.trends(start, end)
+    # logger.info("Trends= {}", json.dumps(trends, indent=4))
 
     # Fetch podcast episodes
     # episodes = connector.episodes()
