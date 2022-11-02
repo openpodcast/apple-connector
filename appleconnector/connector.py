@@ -168,3 +168,27 @@ class AppleConnector:
             'episodeId': episode_id,
         }
         return self._request("episodeDetails", params=params)
+
+    def trends(self, start: dt.date, end: dt.date) -> dict:
+        """Loads trend data for podcast.
+        
+        Daily metrics, 16 dimensions which can be even broke down further, 
+        (e.g. episode listens in Germany by engaged users)
+
+        Args:
+            start (dt.date): Start date.
+            end (dt.date): End date.
+
+        Returns:
+            dict: Response data from API.
+        """
+
+        params = {
+            'start': start.strftime("%Y-%m-%d"),
+            'end': end.strftime("%Y-%m-%d"),
+            'seriesMode': 'DAILY',
+            'metric': 'PLAYS',
+            'dimension': 'BY_EPISODES',
+            'mode': 'WEEKLY',
+        }
+        return self._request("showTrendsV2", params=params)

@@ -19,13 +19,19 @@ def main():
     # meta = connector.overview()
     # logger.info("Podcast Overview= {}", json.dumps(meta, indent=4))
 
+    # Fetch trends for all episodes
+    end = dt.datetime.now()
+    start = dt.datetime.now() - dt.timedelta(days=7)
+    trends = connector.trends(start, end)
+    logger.info("Trends= {}", json.dumps(trends, indent=4))
+
     # Fetch podcast episodes
     # episodes = connector.episodes()
     # logger.info("Podcast Episodes= {}", json.dumps(episodes, indent=4))
 
     # Fetch metadata for single podcast episode
-    episode = connector.episode("1000581490950")
-    logger.info("Podcast Episode= {}", json.dumps(episode, indent=4))
+    # episode = connector.episode("1000581490950")
+    # logger.info("Podcast Episode= {}", json.dumps(episode, indent=4))
 
 if __name__ == "__main__":
     main()
