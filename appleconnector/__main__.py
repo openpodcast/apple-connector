@@ -19,24 +19,9 @@ def main():
     meta = connector.overview()
     logger.info("Podcast Overview= {}", json.dumps(meta, indent=4))
 
-    # # Fetch streams for podcast
-    # end = dt.datetime.now()
-    # start = dt.datetime.now() - dt.timedelta(days=7)
-    # streams = connector.streams(start, end)
-    # logger.info("Podcast Streams = {}", json.dumps(streams, indent=4))
-
-    # # Fetch aggregate data for podcast
-    # end = dt.datetime.now()
-    # start = dt.datetime.now() - dt.timedelta(days=1)
-    # aggregate = connector.aggregate(start, end)
-    # logger.info("Podcast Aggregate = {}", json.dumps(aggregate, indent=4))
-
-    # # Fetch podcast episodes
-    # end = dt.datetime.now()
-    # start = dt.datetime.now() - dt.timedelta(days=7)
-    # # Get all episodes from iterator
-    # for episode in connector.episodes(start, end):
-    #     logger.info("Episode = {}", json.dumps(episode, indent=4))
+    # Fetch podcast episodes
+    episodes = connector.episodes()
+    logger.info("Podcast Episodes= {}", json.dumps(episodes, indent=4))
 
     # # Fetch metadata for single podcast episode
     # episode_meta = connector.metadata(episode="48DAya24YOjS7Ez49JSH3y")

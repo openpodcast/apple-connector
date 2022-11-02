@@ -130,3 +130,22 @@ class AppleConnector:
             'seriesMode': 'MONTHLY',
         }
         return self._request("showOverviewV3", params=params)
+
+    def episodes(self) -> dict:
+        """Loads episode data for podcast.
+
+        Args:
+            None
+
+        Returns:
+            dict: Response data from API.
+        """
+
+        params = {
+            # Hardcoded date taken from Apple Podcast Connect.
+            # Note that it's not called 'start' but 'date'.
+            # Switching between both params seems to be a quirk of the API.
+            'date': '2017-09-19',
+            'mode': 'ALL_TIME',
+        }
+        return self._request("episodes", params=params)
