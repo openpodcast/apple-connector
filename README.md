@@ -13,9 +13,10 @@ https://podcastsconnect.apple.com.
 
 ## Credentials
 
-We need the `myacinfo` cookie from your browser to authenticate.
-It can be found through the network tab in your browser's developer tools.
-Add it to `.env` as `MYACINFO`.
+We need the `myacinfo` and `itctx` cookies from your browser to authenticate.
+They can be found through the network tab in your browser's developer tools.
+Add them to `.env` as `MYACINFO` and `ITCTX`.
+(You need to quote the values, as they may contain `|`.)
 
 ## Installation
 
@@ -32,6 +33,7 @@ from appleconnector import AppleConnector
 connector = AppleConnector(
     showId='1642486726',
     myacinfo="your_myacinfo_cookie",
+    itctx="your_itctx_cookie"
 )
 
 # Get Podcast overview data

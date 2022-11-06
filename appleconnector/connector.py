@@ -42,17 +42,20 @@ class AppleConnector:
         self,
         podcast_id,
         myacinfo,
+        itctx,
     ):
         """Initializes the AppleConnector object.
 
         Args:
             podcast_id (str, optional): Apple Podcast ID.
-            myacinfo (str, optional): Apple cookie.
+            myacinfo (str): Apple cookie.
+            itctx (str): Apple cookie.
         """
 
         self.base_url = BASE_URL
         self.podcast_id = podcast_id
         self.myacinfo = myacinfo
+        self.itctx = itctx
         self.default_params = {
             "showId": self.podcast_id,
         }
@@ -82,7 +85,8 @@ class AppleConnector:
                     'Accept': 'application/json, text/plain, */*',
                 },
                 cookies = {
-                    'myacinfo': self.myacinfo
+                    'myacinfo': self.myacinfo,
+                    'itctx': self.itctx,
                 }
             )
             prepared_request = request.prepare()
