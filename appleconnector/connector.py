@@ -3,36 +3,70 @@ that provides podcast analytics. It relies on using cookies generated
 manually by logging in with the appropriate user at https://podcastsconnect.apple.com.
 """
 
+from enum import Enum
 from typing import Dict, Optional
 import datetime as dt
 from time import sleep
 from threading import RLock
 from urllib.request import Request
 from loguru import logger
-import random
-import string
-import base64
-import hashlib
-import re
-import json
-
 import requests
-from tenacity import retry
-from tenacity.stop import stop_after_attempt
-from tenacity.wait import wait_exponential
-import yaml
 
 
+# Podcast Base URL for API requests
 BASE_URL = "https://podcastsconnect.apple.com/podcasts/pcc/v1/analytics"
+
+# Initial delay between retries
 DELAY_BASE = 2.0
 
+# This is the start date which is hardcoded in the Apple API
+# It can be overridden by the user
+DEFAULT_APPLE_START_DATE = dt.datetime(2017, 9, 19)
 
-def random_string(
-    length: int,
-    chars: str = string.ascii_lowercase + string.ascii_uppercase + string.digits,
-) -> str:
-    """Simple helper function to generate random strings suitable for use with Apple"""
-    return "".join(random.choices(chars, k=length))
+
+class Mode(Enum):
+    """
+    Enum for the different query duration modes available for the Apple
+    Podcasts API.
+    """
+
+    ROLLING_60 = "ROLLING_60"
+    WEEKLY = "WEEKLY"
+    MONTHLY = "MONTHLY"
+    ALL_TIME = "ALL_TIME"
+
+
+class SeriesMode(Enum):
+    """
+    Enum for the different series modes available for the Apple
+    Podcasts API.
+    """
+
+    DAILY = "DAILY"
+    WEEKLY = "WEEKLY"
+    MONTHLY = "MONTHLY"
+
+
+class Metric(Enum):
+    """
+    Enum to represent a metric for the Apple Podcasts API.
+    """
+
+    LISTENERS = "LISTENERS"
+    FOLLOWERS = "FOLLOWERS"
+    TIME_LISTENED = "TIME_LISTENED"
+    PLAYS = "PLAYS"
+
+
+class Dimension(Enum):
+    """
+    Enum to represent a dimension for the Apple Podcasts API.
+    """
+
+    BY_CITY = "BY_CITY"
+    BY_COUNTRY = "BY_COUNTRY"
+    BY_EPISODES = "BY_EPISODES"
+    BY_ENGAGEMENT = "BY_ENGAGEMENT"
 
 
 class AppleConnector:
@@ -63,7 +97,9 @@ class AppleConnector:
     def _build_url(self, path: str) -> str:
         return f"{self.base_url}/{path}"
 
-    def _request(self, endpoint: str, *, params: Optional[Dict[str, str]] = None) -> dict:
+    def _request(
+        self, endpoint: str, *, params: Optional[Dict[str, str]] = None
+    ) -> dict:
         url = self._build_url(endpoint)
         logger.trace("url = {}", url)
         delay = DELAY_BASE
@@ -82,12 +118,12 @@ class AppleConnector:
                 url,
                 params=params,
                 headers={
-                    'Accept': 'application/json, text/plain, */*',
+                    "Accept": "application/json, text/plain, */*",
                 },
-                cookies = {
-                    'myacinfo': self.myacinfo,
-                    'itctx': self.itctx,
-                }
+                cookies={
+                    "myacinfo": self.myacinfo,
+                    "itctx": self.itctx,
+                },
             )
             prepared_request = request.prepare()
             logger.trace("request - {}", prepared_request.url)
@@ -116,7 +152,13 @@ class AppleConnector:
 
         raise Exception("All retries failed!")
 
-    def overview(self) -> dict:
+    def overview(
+        self,
+        start: dt.date = DEFAULT_APPLE_START_DATE,
+        end: dt.date = dt.date.today(),
+        mode: Mode = Mode.ALL_TIME,
+        series_mode: SeriesMode = SeriesMode.MONTHLY,
+    ) -> dict:
         """Loads overview data for podcast.
 
         Args:
@@ -128,14 +170,18 @@ class AppleConnector:
 
         params = {
             # Hardcoded start date taken from Apple Podcast Connect
-            'start': '2017-09-19',
-            'end': dt.datetime.now().strftime("%Y-%m-%d"),
-            'mode': 'ALL_TIME',
-            'seriesMode': 'MONTHLY',
+            "start": start.strftime("%Y-%m-%d"),
+            "end": end.strftime("%Y-%m-%d"),
+            "mode": mode.value,
+            "seriesMode": series_mode.value,
         }
         return self._request("showOverviewV3", params=params)
 
-    def episodes(self) -> dict:
+    def episodes(
+        self,
+        date: dt.date = DEFAULT_APPLE_START_DATE,
+        mode: Mode = Mode.ALL_TIME,
+    ) -> dict:
         """Loads episode data for podcast.
 
         Args:
@@ -146,15 +192,20 @@ class AppleConnector:
         """
 
         params = {
-            # Hardcoded date taken from Apple Podcast Connect.
             # Note that it's not called 'start' but 'date'.
-            # Switching between both params seems to be a quirk of the API.
-            'date': '2017-09-19',
-            'mode': 'ALL_TIME',
+            # Switching between both param names seems to be a quirk of the API.
+            "date": date.strftime("%Y-%m-%d"),
+            "mode": mode.value,
         }
         return self._request("episodes", params=params)
 
-    def episode(self, episode_id: str) -> dict:
+    def episode(
+        self,
+        episode_id: str,
+        start: dt.date = DEFAULT_APPLE_START_DATE,
+        end: dt.date = dt.date.today(),
+        mode: Mode = Mode.ALL_TIME,
+    ) -> dict:
         """Episode details endpoint
 
         Args:
@@ -166,17 +217,25 @@ class AppleConnector:
 
         params = {
             # Yet another way to specify the date range. o_O
-            'startDate': '2017-09-19',
-            'endDate': dt.datetime.now().strftime("%Y-%m-%d"),
-            'mode': 'ALL_TIME',
-            'episodeId': episode_id,
+            "startDate": start.strftime("%Y-%m-%d"),
+            "endDate": end.strftime("%Y-%m-%d"),
+            "mode": mode.value,
+            "episodeId": episode_id,
         }
         return self._request("episodeDetails", params=params)
 
-    def trends(self, start: dt.date, end: dt.date) -> dict:
+    def trends(
+        self,
+        start: dt.date = DEFAULT_APPLE_START_DATE,
+        end: dt.date = dt.date.today(),
+        mode: Mode = Mode.ALL_TIME,
+        series_mode: SeriesMode = SeriesMode.DAILY,
+        metric: Metric = Metric.PLAYS,
+        dimension: Dimension = Dimension.BY_COUNTRY,
+    ) -> dict:
         """Loads trend data for podcast.
-        
-        Daily metrics, 16 dimensions which can be even broke down further, 
+
+        Daily metrics, 16 dimensions which can be even broke down further,
         (e.g. episode listens in Germany by engaged users)
 
         Args:
@@ -188,11 +247,11 @@ class AppleConnector:
         """
 
         params = {
-            'start': start.strftime("%Y-%m-%d"),
-            'end': end.strftime("%Y-%m-%d"),
-            'seriesMode': 'DAILY',
-            'metric': 'PLAYS',
-            'dimension': 'BY_EPISODES',
-            'mode': 'WEEKLY',
+            "start": start.strftime("%Y-%m-%d"),
+            "end": end.strftime("%Y-%m-%d"),
+            "seriesMode": series_mode.value,
+            "metric": metric.value,
+            "dimension": dimension.value,
+            "mode": mode.value,
         }
         return self._request("showTrendsV2", params=params)
