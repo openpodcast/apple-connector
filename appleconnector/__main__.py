@@ -18,7 +18,7 @@ def main():
     )
 
     # Fetch metadata for podcast
-    overview  = connector.overview()
+    overview = connector.overview()
     logger.info("Podcast Overview= {}", json.dumps(overview, indent=4))
 
     # Fetch trends for all episodes
@@ -34,6 +34,7 @@ def main():
     # Fetch metadata for single podcast episode
     episode = connector.episode("1000581490950")
     logger.info("Podcast Episode= {}", json.dumps(episode, indent=4))
+
 
 if __name__ == "__main__":
     main()

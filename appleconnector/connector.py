@@ -24,7 +24,7 @@ DELAY_BASE = 2.0
 DEFAULT_APPLE_START_DATE = dt.datetime(2017, 9, 19)
 
 
-class Mode(Enum):
+class Mode(str, Enum):
     """
     Enum for the different query duration modes available for the Apple
     Podcasts API.
@@ -36,7 +36,7 @@ class Mode(Enum):
     ALL_TIME = "ALL_TIME"
 
 
-class SeriesMode(Enum):
+class SeriesMode(str, Enum):
     """
     Enum for the different series modes available for the Apple
     Podcasts API.
@@ -47,7 +47,7 @@ class SeriesMode(Enum):
     MONTHLY = "MONTHLY"
 
 
-class Metric(Enum):
+class Metric(str, Enum):
     """
     Enum to represent a metric for the Apple Podcasts API.
     """
@@ -58,7 +58,7 @@ class Metric(Enum):
     PLAYS = "PLAYS"
 
 
-class Dimension(Enum):
+class Dimension(str, Enum):
     """
     Enum to represent a dimension for the Apple Podcasts API.
     """
