@@ -19,6 +19,9 @@ BASE_URL = "https://podcastsconnect.apple.com/podcasts/pcc/v1/analytics"
 # Initial delay between retries
 DELAY_BASE = 2.0
 
+# Maximum number of retries
+MAX_RETRY_ATTEMPTS = 6
+
 # This is the start date which is hardcoded in the Apple API
 # It can be overridden by the user
 DEFAULT_APPLE_START_DATE = dt.datetime(2017, 9, 19)
@@ -109,8 +112,7 @@ class AppleConnector:
             params = {}
         params = {**self.default_params, **params}
 
-        for attempt in range(6):
-            sleep(delay)
+        for attempt in range(MAX_RETRY_ATTEMPTS):
 
             # Create request object with requests and trace it before sending
             request = requests.Request(
@@ -138,10 +140,14 @@ class AppleConnector:
                     url,
                     delay,
                 )
+                sleep(delay)
                 continue
 
             if not response.ok:
-                logger.error("Error in API:")
+                logger.error("Error in API:" + endpoint)
+                logger.info(response.request.url)
+                logger.info(response.request.body)
+                logger.info(response.request.headers)
                 logger.info(response.status_code)
                 logger.info(response.headers)
                 logger.info(response.text)
