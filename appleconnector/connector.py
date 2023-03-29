@@ -54,7 +54,7 @@ class Metric(str, Enum):
 
     LISTENERS = "LISTENERS"
     FOLLOWERS = "FOLLOWERS"
-    TIME_LISTENED = "TIME_LISTENED"
+    TIME_LISTENED = "TIME_LISTENED" #total listening time
     PLAYS = "PLAYS"
 
 
@@ -67,6 +67,7 @@ class Dimension(str, Enum):
     BY_COUNTRY = "BY_COUNTRY"
     BY_EPISODES = "BY_EPISODES"
     BY_ENGAGEMENT = "BY_ENGAGEMENT"
+    BY_FOLLOW_STATE = "BY_FOLLOW_STATE" #follower or not follower    
 
 
 class AppleConnector:
