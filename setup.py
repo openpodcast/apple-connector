@@ -3,7 +3,7 @@ from setuptools import find_packages, setup
 setup(
     name='appleconnector',
     packages=find_packages(include=['appleconnector']),
-    version='0.3.2',
+    version='0.4.0',
     description='Apple Connector for Podcast Data',
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
