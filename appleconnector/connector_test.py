@@ -1,3 +1,7 @@
+"""
+Tests for the Apple Music API connector
+"""
+
 import json
 from .connector import Metric, Dimension, Mode, SeriesMode
 

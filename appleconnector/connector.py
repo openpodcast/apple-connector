@@ -71,6 +71,15 @@ class Dimension(str, Enum):
     BY_FOLLOW_STATE = "BY_FOLLOW_STATE"  # follower or not follower
 
 
+class AppleConnectorException(Exception):
+    """
+    Exception raised when the Apple API returns an error.
+    """
+
+    def __init__(self, message):
+        super().__init__(message)
+
+
 class AppleConnector:
     """Representation of the inofficial Apple podcast API."""
 
@@ -154,7 +163,7 @@ class AppleConnector:
             logger.trace("response = {}", response.text)
             return response.json()
 
-        raise Exception("All retries failed!")
+        raise AppleConnectorException("All retries failed!")
 
     def overview(
         self,
@@ -228,7 +237,7 @@ class AppleConnector:
         }
         return self._request("episodeDetails", params=params)
 
-    def trends(
+    def trends(  # pylint: disable=too-many-arguments
         self,
         start: dt.date = DEFAULT_APPLE_START_DATE,
         end: dt.date = dt.date.today(),

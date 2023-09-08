@@ -37,7 +37,7 @@ jobs:
 
       - name: Run linter
         run: |
-          pipenv run flake8 podigeeconnector
+          pipenv run flake8 appleconnector
           pipenv run pylint $(git ls-files '*.py')
 
       - name: Run formatting check
