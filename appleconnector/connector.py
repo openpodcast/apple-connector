@@ -7,8 +7,6 @@ from enum import Enum
 from typing import Dict, Optional
 import datetime as dt
 from time import sleep
-from threading import RLock
-from urllib.request import Request
 from loguru import logger
 import requests
 

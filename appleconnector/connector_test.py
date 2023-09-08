@@ -1,4 +1,3 @@
-import pytest
 import json
 from .connector import Metric, Dimension, Mode, SeriesMode
 
