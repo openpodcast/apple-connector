@@ -57,7 +57,7 @@ class Metric(str, Enum):
 
     LISTENERS = "LISTENERS"
     FOLLOWERS = "FOLLOWERS"
-    TIME_LISTENED = "TIME_LISTENED" #total listening time
+    TIME_LISTENED = "TIME_LISTENED"  # total listening time
     PLAYS = "PLAYS"
 
 
@@ -70,7 +70,7 @@ class Dimension(str, Enum):
     BY_COUNTRY = "BY_COUNTRY"
     BY_EPISODES = "BY_EPISODES"
     BY_ENGAGEMENT = "BY_ENGAGEMENT"
-    BY_FOLLOW_STATE = "BY_FOLLOW_STATE" #follower or not follower    
+    BY_FOLLOW_STATE = "BY_FOLLOW_STATE"  # follower or not follower
 
 
 class AppleConnector:
@@ -114,7 +114,6 @@ class AppleConnector:
         params = {**self.default_params, **params}
 
         for attempt in range(MAX_RETRY_ATTEMPTS):
-
             # Create request object with requests and trace it before sending
             request = requests.Request(
                 "GET",

@@ -10,23 +10,18 @@ with open("README.md", "r", encoding="utf-8") as f:
     long_description = f.read()
 
 setup(
-    name='appleconnector',
-    packages=find_packages(include=['appleconnector']),
-    version='0.4.0',
-    description='Apple Connector for Podcast Data',
-    long_description=open('README.md').read(),
-    long_description_content_type='text/markdown',
-    author='Open Podcast',
-    license='MIT',
+    name="appleconnector",
+    packages=find_packages(include=["appleconnector"]),
+    version="0.4.0",
+    description="Apple Connector for Podcast Data",
+    long_description=open("README.md").read(),
+    long_description_content_type="text/markdown",
+    author="Open Podcast",
+    license="MIT",
     entry_points={
-        'console_scripts': [
-            'appleconnector = appleconnector.__main__:main',
+        "console_scripts": [
+            "appleconnector = appleconnector.__main__:main",
         ]
     },
-    install_requires=[
-        'requests',
-        'loguru',
-        'PyYAML',
-        'tenacity'
-    ],
+    install_requires=["requests", "loguru", "PyYAML", "tenacity"],
 )
