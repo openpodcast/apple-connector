@@ -1,20 +1,29 @@
-import json
-from loguru import logger
-from .connector import AppleConnector
+"""
+This module is used to run the library as a script.
+"""
+
 import os
 import datetime as dt
+import json
+
+from loguru import logger
+
+from .connector import AppleConnector
 
 
 def main():
+    """
+    Run the appleconnector library as a script.
+    """
     # To use the library as a script, fetch the config from the environment
-    PODCAST_ID = os.environ.get("PODCAST_ID")
-    MYACINFO = os.environ.get("MYACINFO")
-    ITCTX = os.environ.get("ITCTX")
+    podcast_id = os.environ.get("PODCAST_ID")
+    myacinfo = os.environ.get("MYACINFO")
+    itctx = os.environ.get("ITCTX")
 
     connector = AppleConnector(
-        podcast_id=PODCAST_ID,
-        myacinfo=MYACINFO,
-        itctx=ITCTX,
+        podcast_id,
+        myacinfo,
+        itctx,
     )
 
     # Fetch metadata for podcast

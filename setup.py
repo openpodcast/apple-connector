@@ -14,7 +14,7 @@ setup(
     packages=find_packages(include=["appleconnector"]),
     version="0.4.0",
     description="Apple Connector for Podcast Data",
-    long_description=open("README.md").read(),
+    long_description=long_description,
     long_description_content_type="text/markdown",
     author="Open Podcast",
     license="MIT",
