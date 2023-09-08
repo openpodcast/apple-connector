@@ -1,4 +1,13 @@
+"""
+Apple Connector for Podcast Data
+
+This package allows you to fetch data from the inofficial Apple Podcast API.
+The API is not documented and may change at any time. Use at your own risk.
+"""
 from setuptools import find_packages, setup
+
+with open("README.md", "r", encoding="utf-8") as f:
+    long_description = f.read()
 
 setup(
     name='appleconnector',
