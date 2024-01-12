@@ -200,7 +200,8 @@ class AppleConnector:
         """Loads episode data for podcast.
 
         Args:
-            None
+            date (dt.date): Date.
+            mode (Mode): Duration mode.
 
         Returns:
             dict: Response data from API.
@@ -225,6 +226,9 @@ class AppleConnector:
 
         Args:
             episode_id (str): Apple Podcast Episode ID.
+            start (dt.date): Start date.
+            end (dt.date): End date.
+            mode (Mode): Duration mode.
 
         Returns:
             dict: Response data from API.
@@ -256,6 +260,10 @@ class AppleConnector:
         Args:
             start (dt.date): Start date.
             end (dt.date): End date.
+            mode (Mode): Duration mode.
+            series_mode (SeriesMode): Series mode.
+            metric (Metric): Metric. Defaults to Metric.PLAYS.
+            dimension (Dimension): Dimension. Defaults to Dimension.BY_COUNTRY.
 
         Returns:
             dict: Response data from API.
