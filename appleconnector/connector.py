@@ -175,7 +175,10 @@ class AppleConnector:
         """Loads overview data for podcast.
 
         Args:
-            None
+            start (dt.date): Start date.
+            end (dt.date): End date.
+            mode (Mode): Duration mode.
+            series_mode (SeriesMode): Series mode.
 
         Returns:
             dict: Response data from API.
