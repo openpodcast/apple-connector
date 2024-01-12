@@ -31,7 +31,7 @@ from appleconnector import AppleConnector
 
 # Set up the connector
 connector = AppleConnector(
-    showId='1642486726',
+    podcast_id='1642486726',
     myacinfo="your_myacinfo_cookie",
     itctx="your_itctx_cookie"
 )
