@@ -182,7 +182,6 @@ class AppleConnector:
         """
 
         params = {
-            # Hardcoded start date taken from Apple Podcast Connect
             "start": start.strftime("%Y-%m-%d"),
             "end": end.strftime("%Y-%m-%d"),
             "mode": mode.value,
