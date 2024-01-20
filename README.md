@@ -1,5 +1,7 @@
 # Apple Connector
 
+[![Docs](https://readthedocs.org/projects/apple-connector/badge?version=latest)](https://apple-connector.readthedocs.io)
+
 This is a simple library for connecting to the inofficial Apple podcast API.  
 It can be used to export data from your dashboard at
 https://podcastsconnect.apple.com.
