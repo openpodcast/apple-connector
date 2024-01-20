@@ -1,22 +1,22 @@
-project = 'apple-connector'
-copyright = '2024, OpenPodcast'
-author = 'OpenPodcast'
+project = "apple-connector"
+copyright = "2024, OpenPodcast"
+author = "OpenPodcast"
 
 version = "0.8.1"
 release = "0.8.1"
 
 extensions = [
-    'sphinx.ext.autodoc',
-    'sphinx.ext.viewcode',
-    'myst_parser',  # enable markdown
+    "sphinx.ext.autodoc",
+    "sphinx.ext.viewcode",
+    "myst_parser",  # enable markdown
 ]
 
-templates_path = ['_templates']
+templates_path = ["_templates"]
 
-source_suffix = ['.rst', '.md']
+source_suffix = [".rst", ".md"]
 
-master_doc = 'index'
+master_doc = "index"
 
-exclude_patterns = ['dist', 'build', '_build', 'Thumbs.db', '.DS_Store']
+exclude_patterns = ["dist", "build", "_build", "Thumbs.db", ".DS_Store"]
 
-html_theme = 'alabaster'
+html_theme = "alabaster"
