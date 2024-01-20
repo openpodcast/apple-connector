@@ -38,7 +38,7 @@ jobs:
       - name: Run linter
         run: |
           pipenv run flake8 appleconnector
-          pipenv run pylint $(git ls-files '*.py' | grep -v 'config.py')
+          pipenv run pylint $(git ls-files '*.py' | grep -v 'docs/conf.py')
 
       - name: Run formatting check
         run: |
