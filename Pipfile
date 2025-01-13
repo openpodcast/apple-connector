@@ -7,6 +7,9 @@ name = "pypi"
 spotifyconnector = {editable = true, path = "."}
 
 [dev-packages]
+black = "*"
+flake8 = "*"
+pylint = ">=3.0.3"
 
 [requires]
 python_version = "3.10"

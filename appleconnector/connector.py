@@ -243,7 +243,7 @@ class AppleConnector:
         }
         return self._request("episodeDetails", params=params)
 
-    def trends(  # pylint: disable=too-many-arguments,R0913
+    def trends( # pylint: disable=too-many-arguments,too-many-positional-arguments
         self,
         start: dt.date = DEFAULT_APPLE_START_DATE,
         end: dt.date = dt.date.today(),
