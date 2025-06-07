@@ -9,7 +9,7 @@ clean:
 .PHONY: publish
 publish: clean
 	pipenv run python setup.py sdist bdist_wheel
-	twine upload --username mre0 dist/*
+	twine upload --username __token__ dist/*
 
 .PHONY: lint
 lint: ## run lint
