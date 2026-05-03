@@ -3,13 +3,13 @@ that provides podcast analytics. It relies on using cookies generated
 manually by logging in with the appropriate user at https://podcastsconnect.apple.com.
 """
 
-from enum import Enum
-from typing import Dict, Optional
 import datetime as dt
+from enum import Enum
 from time import sleep
-from loguru import logger
-import requests
+from typing import Dict, Optional
 
+import requests
+from loguru import logger
 
 # Podcast Base URL for API requests
 BASE_URL = "https://podcastsconnect.apple.com/podcasts/pcc/v1/analytics"
@@ -243,7 +243,7 @@ class AppleConnector:
         }
         return self._request("episodeDetails", params=params)
 
-    def trends( # pylint: disable=too-many-arguments,too-many-positional-arguments
+    def trends(  # pylint: disable=too-many-arguments,too-many-positional-arguments
         self,
         start: dt.date = DEFAULT_APPLE_START_DATE,
         end: dt.date = dt.date.today(),
