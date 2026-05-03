@@ -50,14 +50,14 @@ See `__main.py__` for all endpoints.
 
 ## Development
 
-We use [Pipenv] for virtualenv and dev dependency management. With Pipenv
-installed:
+We use [uv](https://docs.astral.sh/uv/) for virtualenv and dependency
+management. With uv installed:
 
-1. Install your locally checked out code in [development mode], including its
-   dependencies, and all dev dependencies into a virtual environment:
+1. Install your locally checked out code, including its dependencies and all
+   dev dependencies, into a virtual environment:
 
 ```sh
-pipenv sync --dev
+uv sync --all-extras --dev
 ```
 
 2. Create an environment file and fill in the required values:
@@ -66,35 +66,36 @@ pipenv sync --dev
 cp .env.example .env
 ```
 
-3. Run the script in the virtual environment, which will [automatically load
-   your `.env`][env]:
+3. Run the script in the virtual environment:
 
 ```sh
-pipenv run appleconnector
+uv run appleconnector
 ```
 
-To add a new dependency for use during the development of this library:
+To add a new dev dependency:
 
 ```sh
-pipenv install --dev $package
+uv add --dev $package
 ```
 
-To add a new dependency necessary for the correct operation of this library, add
-the package to the `install_requires` section of `./setup.py`, then:
+To add a new runtime dependency:
 
 ```sh
-pipenv install
+uv add $package
 ```
 
-To publish the package:
+### Releasing
+
+Releases are published to PyPI automatically by CI when a GitHub release is
+created. To cut a new release:
+
+1. Bump the `version` field in `pyproject.toml`.
+2. Commit and push to `main`.
+3. Create a GitHub release with a matching `vX.Y.Z` tag — the `deploy` job
+   will run `uv build` and upload the artifacts to PyPI.
+
+To build the package locally:
 
 ```sh
-python setup.py sdist bdist_wheel
-twine upload dist/*
-```
-
-or
-
-```sh
-make publish
+uv build
 ```
