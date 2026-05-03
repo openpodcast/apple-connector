@@ -35,6 +35,9 @@ jobs:
       - name: Run formatting check
         run: uv run black --check .
 
+      - name: Run tests
+        run: uv run pytest
+
   deploy:
     needs: test
     runs-on: ubuntu-latest
