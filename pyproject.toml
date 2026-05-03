@@ -1,0 +1,48 @@
+[project]
+name = "appleconnector"
+version = "0.4.0"
+description = "Apple Connector for Podcast Data"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [
+    { name = "Open Podcast" },
+]
+dependencies = [
+    "requests",
+    "loguru",
+    "PyYAML",
+    "tenacity",
+]
+
+[project.optional-dependencies]
+docs = [
+    "myst_parser",
+]
+
+[project.scripts]
+appleconnector = "appleconnector.__main__:main"
+
+[dependency-groups]
+dev = [
+    "black",
+    "flake8",
+    "pylint>=3.0.3",
+    "pytest",
+    "build",
+    "twine",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["appleconnector"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "appleconnector",
+    "README.md",
+    "LICENSE",
+]

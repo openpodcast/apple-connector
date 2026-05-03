@@ -1,7 +1,7 @@
 name: CI/CD
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   release:
     types: [created]
 
@@ -12,41 +12,26 @@ jobs:
 
     steps:
       - name: Check out repository code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
-      # Setup Python (faster than using Python container)
-      - name: Setup Python
-        uses: actions/setup-python@v2
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
         with:
-          python-version: "3.12"
+          enable-cache: true
 
-      - name: Install formatters and linters
-        run: |
-          python -m pip install black flake8 pylint
-
-      - name: Install pipenv
-        run: |
-          python -m pip install --upgrade pipenv wheel
-
-      - id: cache-pipenv
-        uses: actions/cache@v1
-        with:
-          path: ~/.local/share/virtualenvs
-          key: ${{ runner.os }}-pipenv-${{ hashFiles('**/Pipfile.lock') }}
+      - name: Set up Python
+        run: uv python install 3.12
 
       - name: Install dependencies
-        if: steps.cache-pipenv.outputs.cache-hit != 'true'
-        run: |
-          pipenv install --deploy --dev
+        run: uv sync --all-extras --dev
 
       - name: Run linter
         run: |
-          pipenv run flake8 appleconnector
-          pipenv run pylint $(git ls-files '*.py' | grep -v 'docs/conf.py')
+          uv run flake8 appleconnector
+          uv run pylint $(git ls-files '*.py' | grep -v 'docs/conf.py')
 
       - name: Run formatting check
-        run: |
-          pipenv run black --check .
+        run: uv run black --check .
 
   deploy:
     needs: test
@@ -55,23 +40,21 @@ jobs:
 
     steps:
       - name: Check out repository code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+        with:
+          enable-cache: true
 
       - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: "3.12"
-
-      - name: Install build dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install build twine
+        run: uv python install 3.12
 
       - name: Build package
-        run: python -m build
+        run: uv build
 
       - name: Publish to PyPI
         env:
           TWINE_USERNAME: __token__
           TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
-        run: twine upload dist/*
+        run: uv run --with twine twine upload dist/*
